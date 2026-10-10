@@ -109,6 +109,108 @@ body {
 }
 .home-tab.unlocked { background: var(--good); color: #06231c; border-color: var(--good); }
 .home-tab.locked { opacity: 0.55; cursor: not-allowed; }
+.home-tab.game { background: #7aa2ff; color: #0a173d; border-color: #7aa2ff; }
+
+/* ---------- 혁명 매칭 게임 ---------- */
+.mg-status {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 14px 0 18px;
+}
+.mg-chip {
+  background: var(--panel);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+.mg-chip.pulse-bad { animation: pulseBad 0.5s ease; }
+@keyframes pulseBad {
+  0% { background: var(--bad); color: #fff; }
+  100% { background: var(--panel); }
+}
+
+.mg-board {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.mg-col { display: grid; gap: 10px; }
+.mg-col-title {
+  margin: 0 0 2px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+.mg-clue {
+  text-align: left;
+  background: var(--panel);
+  color: var(--text);
+  border: 2px solid var(--panel-light);
+  border-radius: 14px;
+  padding: 14px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  transition: border-color 0.1s, transform 0.08s, background 0.1s;
+}
+.mg-clue:hover:not(:disabled) { border-color: var(--accent); }
+.mg-clue.selected {
+  border-color: var(--accent);
+  background: var(--panel-light);
+  box-shadow: 0 0 0 2px var(--accent) inset;
+}
+.mg-clue.matched {
+  opacity: 0.9;
+  cursor: default;
+  border-style: solid;
+  background: var(--bg-soft);
+}
+.mg-clue-tag {
+  display: block;
+  font-weight: 800;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+  color: var(--accent);
+}
+.mg-clue-text { display: block; }
+
+.mg-name {
+  background: var(--panel);
+  color: var(--text);
+  border: 2px solid var(--panel-light);
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 0.1s, transform 0.08s;
+}
+.mg-name:hover:not(:disabled) { border-color: #7aa2ff; }
+.mg-name.matched { cursor: default; }
+.mg-name.shake { animation: shake 0.4s ease; border-color: var(--bad); }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.mg-hint {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: 16px;
+}
+
+@media (max-width: 560px) {
+  .mg-board { grid-template-columns: 1fr; }
+  .mg-col-title { text-align: left; }
+}
 
 .home-stats { margin-bottom: 24px; }
 .home-stats-row {

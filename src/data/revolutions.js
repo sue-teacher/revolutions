@@ -23,6 +23,7 @@ export const revolutions = [
     region: 'italy',
     coords: [41.9028, 12.4964],
     summary: '여러 나라로 나뉘어 있던 이탈리아가 하나의 왕국으로 통일되다.',
+    matchClue: '카부르의 외교와 가리발디의 붉은 셔츠대가 힘을 합쳐 하나의 왕국으로 통일을 이뤘다.',
     sections: [
       {
         label: '배경',
@@ -92,6 +93,7 @@ export const revolutions = [
     region: 'germany',
     coords: [52.52, 13.405],
     summary: '프로이센이 "철혈정책"으로 독일을 통일해 독일 제국을 세우다.',
+    matchClue: '비스마르크가 "철과 피" 정책으로 프로이센을 중심으로 통일을 이루고 제국을 세웠다.',
     sections: [
       {
         label: '배경',
@@ -160,6 +162,7 @@ export const revolutions = [
     region: 'haiti',
     coords: [18.5944, -72.3074],
     summary: '노예들이 봉기해 세계 최초의 흑인 공화국을 세우다.',
+    matchClue: '투생 루베르튀르를 중심으로 노예들이 봉기해, 라틴 아메리카 최초의 독립국이 되었다.',
     sections: [
       {
         label: '배경',
@@ -215,6 +218,7 @@ export const revolutions = [
     region: 'usa',
     coords: [38.9072, -77.0369],
     summary: '노예제를 둘러싼 갈등으로 남과 북이 전쟁을 벌이다.',
+    matchClue: '노예제를 둘러싸고 남부와 북부가 전쟁을 벌였고, 링컨의 노예 해방 선언 끝에 북부가 승리했다.',
     sections: [
       {
         label: '배경',
@@ -282,6 +286,7 @@ export const revolutions = [
     region: 'latin',
     coords: [10.4806, -66.9036],
     summary: '크리오요를 중심으로 에스파냐·포르투갈로부터 독립하다.',
+    matchClue: '크리오요를 중심으로 볼리바르·산마르틴이 에스파냐·포르투갈의 식민 지배에서 벗어났다.',
     sections: [
       {
         label: '배경',
@@ -348,6 +353,7 @@ export const revolutions = [
     region: 'france',
     coords: [48.8566, 2.3522],
     summary: '자유를 되찾기 위한 두 번의 혁명으로 공화정으로 나아가다.',
+    matchClue: '7월혁명으로 입헌군주제를, 2월혁명으로 공화정을 세운 두 차례의 혁명이 일어났다.',
     sections: [
       {
         label: '배경',
@@ -413,6 +419,7 @@ export const revolutions = [
     region: 'britain',
     coords: [51.5074, -0.1278],
     summary: '노동자들이 선거권을 요구하며 참정권 운동을 벌이다.',
+    matchClue: '노동자들이 "인민헌장"을 내걸고 선거권(참정권) 확대를 요구한 운동이다.',
     sections: [
       {
         label: '배경',

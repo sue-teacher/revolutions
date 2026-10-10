@@ -43,7 +43,7 @@ export default function Home() {
         <p className="home-map-hint">🧭 지도의 핀을 눌러 각 사건이 일어난 곳으로 떠나 보세요.</p>
       </section>
 
-      {/* 탭: 스테이지 / 틀린 문제 다시보기 */}
+      {/* 탭: 스테이지 / 틀린 문제 다시보기 / 혁명 매칭 게임 */}
       <nav className="home-tabs">
         <span className="home-tab active">📚 스테이지</span>
         <button
@@ -56,6 +56,13 @@ export default function Home() {
           {reviewUnlocked
             ? wrongCount > 0 ? ` (${wrongCount})` : ' ✓'
             : ' 🔒'}
+        </button>
+        <button
+          className="home-tab game"
+          onClick={() => navigate('/match-game')}
+          title="설명과 혁명 이름을 연결하는 복습 게임"
+        >
+          🧩 혁명 매칭 게임
         </button>
       </nav>
 
