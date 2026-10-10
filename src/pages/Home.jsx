@@ -37,9 +37,9 @@ export default function Home() {
   return (
     <div className="home">
       {/* 상단 네비게이션 */}
-      <nav className="topbar">
+      <nav className="topbar" aria-label="주요 메뉴">
         <div className="topbar-brand">
-          <span className="topbar-logo">🗺️</span>
+          <span className="topbar-logo" aria-hidden="true">🗺️</span>
           <span className="topbar-name">지수쌤과 혁명 탐험대</span>
         </div>
         <div className="topbar-actions">
@@ -47,12 +47,18 @@ export default function Home() {
             className={`chip-btn ${reviewUnlocked ? '' : 'is-locked'}`}
             disabled={!reviewUnlocked}
             onClick={() => reviewUnlocked && navigate('/review')}
+            aria-label={
+              reviewUnlocked
+                ? `틀린 문제 다시 풀기${wrongCount > 0 ? `, ${wrongCount}문제` : ', 완료'}`
+                : '틀린 문제 다시 풀기, 모든 스테이지를 클리어하면 열려요'
+            }
             title={reviewUnlocked ? '틀린 문제를 다시 풀어요' : '모든 스테이지를 클리어하면 열려요'}
           >
-            🔁 틀린 문제 {reviewUnlocked ? (wrongCount > 0 ? `(${wrongCount})` : '✓') : '🔒'}
+            <span aria-hidden="true">🔁</span> 틀린 문제{' '}
+            <span className="chip-count">{reviewUnlocked ? (wrongCount > 0 ? `${wrongCount}` : '✓') : '🔒'}</span>
           </button>
-          <button className="chip-btn chip-game" onClick={() => navigate('/match-game')}>
-            🧩 매칭 게임
+          <button className="chip-btn chip-game" onClick={() => navigate('/match-game')} aria-label="혁명 매칭 게임 하러 가기">
+            <span aria-hidden="true">🧩</span> 매칭 게임
           </button>
         </div>
       </nav>
@@ -83,13 +89,13 @@ export default function Home() {
           <div className="map-frame">
             <RevolutionMap progress={progress} />
           </div>
-          <p className="home-map-hint">🧭 지도의 핀을 눌러 바로 떠날 수 있어요</p>
+          <p className="home-map-hint"><span aria-hidden="true">🧭</span> 지도의 핀을 눌러 바로 떠날 수 있어요</p>
         </div>
       </section>
 
       {/* 탐험 경로 */}
-      <section className="journey">
-        <h2 className="section-heading">🚩 탐험 경로</h2>
+      <section className="journey" aria-labelledby="journey-heading">
+        <h2 className="section-heading" id="journey-heading"><span aria-hidden="true">🚩</span> 탐험 경로</h2>
         <ol className="journey-path">
           {revolutions.map((rev, idx) => {
             const p = progress[rev.id]
@@ -97,7 +103,11 @@ export default function Home() {
             return (
               <li key={rev.id} className={`journey-item ${cleared ? 'cleared' : ''}`}>
                 <div className="journey-rail">
-                  <span className="journey-dot" style={{ '--accent': rev.color }}>
+                  <span
+                    className="journey-dot"
+                    style={{ '--accent': rev.color }}
+                    aria-label={cleared ? `${idx + 1}번째, 클리어함` : `${idx + 1}번째`}
+                  >
                     {cleared ? '✓' : idx + 1}
                   </span>
                 </div>
@@ -107,7 +117,7 @@ export default function Home() {
                   style={{ '--accent': rev.color }}
                 >
                   <div className="journey-banner" style={{ '--accent': rev.color }}>
-                    <span className="journey-emoji">{rev.emoji}</span>
+                    <span className="journey-emoji" aria-hidden="true">{rev.emoji}</span>
                     <span className="journey-year">{rev.year}년</span>
                   </div>
                   <div className="journey-body">

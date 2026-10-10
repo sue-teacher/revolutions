@@ -91,6 +91,27 @@ body {
   padding: var(--space-5) var(--space-4) 72px;
 }
 
+/* 키보드 사용자용 본문 바로가기 */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 1000;
+  padding: 10px 18px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
+  outline: none;
+  box-shadow: var(--ring);
+}
+
 ::selection { background: rgba(255, 209, 102, 0.3); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -144,7 +165,7 @@ body {
 /* ============================================================
    홈 — 상단 네비 / 히어로 / 탐험 경로
    ============================================================ */
-.home-map-hint { text-align: center; color: var(--text-dim); font-size: 0.82rem; margin: var(--space-3) 0 0; }
+.home-map-hint { text-align: center; color: var(--text-dim); font-size: 0.86rem; margin: var(--space-3) 0 0; }
 
 /* 상단 네비게이션 */
 .topbar {
@@ -181,6 +202,19 @@ body {
 .chip-btn:focus-visible { outline: none; box-shadow: var(--ring); }
 .chip-btn.is-locked { opacity: 0.5; cursor: not-allowed; }
 .chip-btn.chip-game { background: linear-gradient(180deg, #8fb0ff 0%, var(--info) 100%); color: #0a173d; border-color: transparent; }
+.chip-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  margin-left: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+.chip-btn.chip-game .chip-count { background: rgba(10, 23, 61, 0.18); }
 
 /* 히어로 */
 .hero {
@@ -228,7 +262,7 @@ body {
 }
 .hero-stat-list { display: flex; gap: var(--space-5); flex-wrap: wrap; }
 .hero-stat { display: flex; flex-direction: column; gap: 2px; }
-.hero-stat-value { font-size: 1.5rem; font-weight: 800; }
+.hero-stat-value { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
 .hero-stat-unit { font-size: 0.95rem; color: var(--text-faint); font-weight: 700; }
 .hero-stat-label { font-size: 0.78rem; color: var(--text-dim); }
 
@@ -250,6 +284,7 @@ body {
   place-items: center;
   font-weight: 800;
   font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
 }
 
 /* 지도 프레임 */
@@ -339,6 +374,7 @@ body {
   background: rgba(0,0,0,0.28);
   padding: 2px 8px;
   border-radius: 999px;
+  font-variant-numeric: tabular-nums;
 }
 .journey-body { flex: 1; padding: var(--space-4); min-width: 0; }
 .journey-title { margin: 0 0 var(--space-2); font-size: 1.15rem; }
@@ -587,7 +623,7 @@ body {
   border-radius: 50%;
   background: var(--accent);
 }
-.timeline-year { font-weight: 800; color: var(--accent); min-width: 48px; }
+.timeline-year { font-weight: 800; color: var(--accent); min-width: 48px; font-variant-numeric: tabular-nums; }
 .timeline-event { color: var(--text); }
 
 .stage-cta { text-align: center; margin-top: 24px; }
@@ -602,8 +638,8 @@ body {
   margin-bottom: 16px;
   gap: 10px;
 }
-.quiz-progress-text { font-weight: 700; color: var(--text-dim); }
-.quiz-score { font-weight: 800; color: var(--accent); }
+.quiz-progress-text { font-weight: 700; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.quiz-score { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
 .combo-badge {
   background: var(--bad);
   color: #fff;

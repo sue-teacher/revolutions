@@ -9,6 +9,8 @@ import MatchGame from './pages/MatchGame.jsx'
 export default function App() {
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main">본문으로 건너뛰기</a>
+      <main id="main">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/stage/:id" element={<Stage />} />
@@ -18,6 +20,7 @@ export default function App() {
         <Route path="/match-game" element={<MatchGame />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      </main>
     </div>
   )
 }
