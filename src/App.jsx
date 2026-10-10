@@ -23,6 +23,9 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       </main>
+      <footer className="site-footer">
+        <span aria-hidden="true">🧭</span> 혁명 탐험가 · 지수쌤 역사 교실
+      </footer>
     </div>
   )
 }

@@ -88,7 +88,25 @@ body {
 .app-shell {
   max-width: 940px;
   margin: 0 auto;
-  padding: var(--space-5) var(--space-4) 72px;
+  padding: var(--space-5) var(--space-4) var(--space-5);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell > #main {
+  flex: 1 0 auto;
+}
+
+/* 모든 페이지 공통 하단 고정 문구 */
+.site-footer {
+  flex-shrink: 0;
+  margin-top: var(--space-6);
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* 키보드 사용자용 본문 바로가기 */
