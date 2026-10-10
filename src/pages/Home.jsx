@@ -40,7 +40,7 @@ export default function Home() {
       <nav className="topbar">
         <div className="topbar-brand">
           <span className="topbar-logo">🗺️</span>
-          <span className="topbar-name">표선 혁명 탐험대</span>
+          <span className="topbar-name">지수쌤과 혁명 탐험대</span>
         </div>
         <div className="topbar-actions">
           <button

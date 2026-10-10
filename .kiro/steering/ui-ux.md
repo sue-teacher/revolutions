@@ -1,10 +1,10 @@
 ---
 inclusion: auto
 name: ui-ux-design-system
-description: 표선 혁명 탐험대의 UI/UX 디자인 원칙과 디자인 시스템. UI/스타일/CSS/레이아웃/디자인 작업 시 참고.
+description: 지수쌤과 혁명 탐험대의 UI/UX 디자인 원칙과 디자인 시스템. UI/스타일/CSS/레이아웃/디자인 작업 시 참고.
 ---
 
-# 표선 혁명 탐험대 — 디자인 시스템
+# 지수쌤과 혁명 탐험대 — 디자인 시스템
 
 이 프로젝트의 UI는 [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 방법론을 참고해 "일관된 디자인 시스템"을 세우는 방식으로 다듬는다.
