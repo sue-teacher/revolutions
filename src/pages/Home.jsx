@@ -22,12 +22,7 @@ export default function Home() {
         <p className="home-subtitle">역사1 · 국민 국가의 형성 복습 게임</p>
       </header>
 
-      {/* OSM 지도를 홈 메인에 바로 노출 */}
-      <section className="home-map-section">
-        <RevolutionMap progress={progress} />
-        <p className="home-map-hint">🧭 지도의 핀을 눌러 각 사건이 일어난 곳으로 떠나 보세요.</p>
-      </section>
-
+      {/* 통계(클리어 스테이지·모은 별)를 지도 위에 배치 */}
       <section className="home-stats card">
         <div className="home-stats-row">
           <div className="stat-box">
@@ -40,6 +35,12 @@ export default function Home() {
           </div>
         </div>
         <ProgressBar percent={stats.percent} />
+      </section>
+
+      {/* OSM 지도를 홈 메인에 바로 노출 */}
+      <section className="home-map-section">
+        <RevolutionMap progress={progress} />
+        <p className="home-map-hint">🧭 지도의 핀을 눌러 각 사건이 일어난 곳으로 떠나 보세요.</p>
       </section>
 
       {/* 탭: 스테이지 / 틀린 문제 다시보기 */}

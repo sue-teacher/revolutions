@@ -22,20 +22,20 @@ export default function Quiz() {
   const questions = useMemo(() => rev?.quiz ?? [], [rev])
 
   const [index, setIndex] = useState(0)
-  const [locked, setLocked] = useState(false)
   const [score, setScore] = useState(0)
   const [combo, setCombo] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
   const [wrong, setWrong] = useState([]) // 틀린 문제의 인덱스 목록
 
-  // 선택형(mcq/ox) 상태
-  const [selected, setSelected] = useState(null)
-  const [lastCorrect, setLastCorrect] = useState(false)
+  // 문제별 채점 기록. answers[i] = { answered, correct, selected }
+  // selected: mcq/ox의 선택지 인덱스(되돌아보기에서 하이라이트 복원용)
+  const [answers, setAnswers] = useState(() => questions.map(() => null))
 
-  // order/match 는 자식이 현재 상태/정답여부를 올려준다
+  // 현재 선택형 임시 선택값(아직 채점 전)
+  const [selected, setSelected] = useState(null)
+  // order/match 자식이 올려주는 현재 상태
   const [subAnswer, setSubAnswer] = useState({ correct: false, ready: false })
 
-  // order/match 자식에서 상태 보고 받기
   const handleSubReady = useCallback((_value, correct, ready = true) => {
     setSubAnswer({ correct, ready })
   }, [])
@@ -43,13 +43,21 @@ export default function Quiz() {
   if (!rev) return <Navigate to="/" replace />
 
   const q = questions[index]
+  const record = answers[index]
+  const answered = !!record?.answered
   const isLast = index === questions.length - 1
+  const allAnswered = answers.every((a) => a?.answered)
 
-  const commitResult = (isCorrect) => {
-    setLocked(true)
+  // 채점 (각 문제 최초 1회만 점수/콤보/오답 반영)
+  const commitResult = (isCorrect, selectedIndex = null) => {
+    setAnswers((prev) => {
+      const next = [...prev]
+      next[index] = { answered: true, correct: isCorrect, selected: selectedIndex }
+      return next
+    })
+
     if (isCorrect) {
       const newCombo = combo + 1
-      // 콤보 보너스: 연속 정답일수록 추가 점수
       const bonus = (newCombo - 1) * 20
       setScore((s) => s + BASE_POINT + bonus)
       setCombo(newCombo)
@@ -60,39 +68,47 @@ export default function Quiz() {
     }
   }
 
-  // 선택형 즉시 채점
   const handleSelect = (choiceIndex, isCorrect) => {
-    if (locked) return
+    if (answered) return
     setSelected(choiceIndex)
-    setLastCorrect(isCorrect)
-    commitResult(isCorrect)
+    commitResult(isCorrect, choiceIndex)
   }
 
-  // 제출 버튼(order/match)
   const handleSubmit = () => {
-    if (locked) return
-    setLastCorrect(subAnswer.correct)
+    if (answered) return
     commitResult(subAnswer.correct)
   }
 
-  const handleNext = () => {
-    if (isLast) {
-      const total = questions.length
-      const ratio = correctCount / total
-      const stars = ratio >= 0.9 ? 3 : ratio >= 0.6 ? 2 : ratio > 0 ? 1 : 0
-      navigate(`/result/${rev.id}`, {
-        state: { score, correctCount, total, stars, wrong },
-        replace: true,
-      })
-      return
-    }
-    setIndex((i) => i + 1)
-    setLocked(false)
+  const goTo = (targetIndex) => {
+    setIndex(targetIndex)
     setSelected(null)
     setSubAnswer({ correct: false, ready: false })
   }
 
+  const handlePrev = () => {
+    if (index > 0) goTo(index - 1)
+  }
+
+  const handleNext = () => {
+    if (!isLast) {
+      goTo(index + 1)
+      return
+    }
+    // 마지막 문제 + 모두 채점 완료 → 결과로
+    const total = questions.length
+    const ratio = correctCount / total
+    const stars = ratio >= 0.9 ? 3 : ratio >= 0.6 ? 2 : ratio > 0 ? 1 : 0
+    navigate(`/result/${rev.id}`, {
+      state: { score, correctCount, total, stars, wrong },
+      replace: true,
+    })
+  }
+
   const needsSubmit = q.type === 'order' || q.type === 'match'
+  // 선택형은 되돌아보기 시 이전 선택을 복원해 하이라이트, 그 외엔 임시 선택값 사용
+  const shownSelected = answered ? record.selected : selected
+  // order/match는 재방문 시 섞인 배열을 복원할 수 없어 읽기 전용 요약으로 보여준다
+  const reviewingInteractive = answered && needsSubmit
 
   return (
     <div className="quiz">
@@ -113,34 +129,70 @@ export default function Quiz() {
         <h2 className="question-text">{q.q}</h2>
 
         {(q.type === 'mcq' || q.type === 'ox') && (
-          <McqQuestion question={q} locked={locked} selected={selected} onSelect={handleSelect} />
-        )}
-        {q.type === 'order' && (
-          <OrderQuestion question={q} locked={locked} onReady={handleSubReady} />
-        )}
-        {q.type === 'match' && (
-          <MatchQuestion question={q} locked={locked} onReady={handleSubReady} />
+          <McqQuestion
+            question={q}
+            locked={answered}
+            selected={shownSelected}
+            onSelect={handleSelect}
+          />
         )}
 
-        {locked && (
-          <div className={`feedback ${lastCorrect ? 'good' : 'bad'}`}>
-            <p className="feedback-head">{lastCorrect ? '🎉 정답!' : '❌ 아쉬워요'}</p>
+        {/* order/match: 처음 풀 땐 인터랙티브, 되돌아보기 땐 읽기전용 요약 */}
+        {q.type === 'order' && !reviewingInteractive && (
+          <OrderQuestion key={index} question={q} locked={answered} onReady={handleSubReady} />
+        )}
+        {q.type === 'match' && !reviewingInteractive && (
+          <MatchQuestion key={index} question={q} locked={answered} onReady={handleSubReady} />
+        )}
+        {reviewingInteractive && (
+          <div className="review-answer-box">
+            {q.type === 'order' ? (
+              <ol className="review-order">
+                {q.items.map((it) => <li key={it}>{it}</li>)}
+              </ol>
+            ) : (
+              <ul className="review-match">
+                {q.pairs.map((p) => <li key={p.left}><strong>{p.left}</strong> — {p.right}</li>)}
+              </ul>
+            )}
+            <p className="review-answer-note">정답 배열이에요. (되돌아보기는 읽기 전용입니다)</p>
+          </div>
+        )}
+
+        {answered && (
+          <div className={`feedback ${record.correct ? 'good' : 'bad'}`}>
+            <p className="feedback-head">{record.correct ? '🎉 정답!' : '❌ 아쉬워요'}</p>
             <p className="feedback-text">{q.explain}</p>
           </div>
         )}
       </div>
 
-      <div className="quiz-actions">
-        {!locked && needsSubmit && (
-          <button className="btn btn-primary" disabled={!subAnswer.ready} onClick={handleSubmit}>
-            제출하기
-          </button>
-        )}
-        {locked && (
-          <button className="btn btn-primary" onClick={handleNext}>
-            {isLast ? '결과 보기 →' : '다음 문제 →'}
-          </button>
-        )}
+      <div className="quiz-actions quiz-nav">
+        <button
+          className="btn btn-ghost"
+          disabled={index === 0}
+          onClick={handlePrev}
+        >
+          ← 이전 문제
+        </button>
+
+        <div className="quiz-nav-right">
+          {!answered && needsSubmit && (
+            <button className="btn btn-primary" disabled={!subAnswer.ready} onClick={handleSubmit}>
+              제출하기
+            </button>
+          )}
+          {answered && !isLast && (
+            <button className="btn btn-primary" onClick={handleNext}>
+              다음 문제 →
+            </button>
+          )}
+          {answered && isLast && allAnswered && (
+            <button className="btn btn-primary" onClick={handleNext}>
+              결과 보기 →
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
