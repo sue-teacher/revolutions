@@ -2,7 +2,7 @@
    표선 혁명 탐험대 — 디자인 시스템 토큰
    ui-ux-pro-max 방법론 적용: 색/타이포/간격/그림자를 토큰화
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800&family=Gowun+Dodum&display=swap');
 
 :root {
   /* 배경 & 표면(명도 단계로 깊이 표현) */
@@ -50,7 +50,8 @@
   --panel: var(--surface-2);
   --panel-light: var(--surface-3);
 
-  font-family: 'Pretendard', 'Gowun Dodum', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  --font-title: 'Gothic A1', 'Pretendard', 'Noto Sans KR', sans-serif;
+  font-family: 'Pretendard', 'Gothic A1', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
 }
 
 * {
@@ -76,8 +77,9 @@ body {
 
 /* 제목 폰트 */
 .home-title, .stage-hero h2, .result h2, .question-text {
-  font-family: 'Jua', 'Pretendard', 'Gowun Dodum', sans-serif;
-  letter-spacing: -0.5px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  letter-spacing: -0.3px;
 }
 
 .app-shell {
@@ -159,7 +161,7 @@ body {
 }
 .topbar-brand { display: flex; align-items: center; gap: var(--space-2); font-weight: 800; }
 .topbar-logo { font-size: 1.4rem; }
-.topbar-name { font-family: 'Jua', sans-serif; font-size: 1.15rem; letter-spacing: -0.3px; }
+.topbar-name { font-family: var(--font-title); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.3px; }
 .topbar-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
 .chip-btn {
   font-size: 0.85rem;
@@ -197,9 +199,10 @@ body {
   margin-bottom: var(--space-3);
 }
 .hero-title {
-  font-family: 'Jua', sans-serif;
+  font-family: var(--font-title);
+  font-weight: 800;
   font-size: clamp(1.9rem, 4.6vw, 2.9rem);
-  line-height: 1.2;
+  line-height: 1.3;
   margin: 0 0 var(--space-3);
   letter-spacing: -0.5px;
 }
@@ -258,7 +261,8 @@ body {
 
 /* 섹션 제목 */
 .section-heading {
-  font-family: 'Jua', sans-serif;
+  font-family: var(--font-title);
+  font-weight: 700;
   font-size: 1.5rem;
   margin: 0 0 var(--space-4);
 }
