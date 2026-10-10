@@ -213,7 +213,7 @@ export const revolutions = [
     id: 'usa',
     title: '미국 남북전쟁',
     emoji: '🇺🇸',
-    color: '#1d3557',
+    color: '#3d6fb4',
     year: 1865,
     region: 'usa',
     coords: [38.9072, -77.0369],
