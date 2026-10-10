@@ -82,6 +82,34 @@ body {
 .home-title-emoji { filter: drop-shadow(0 3px 4px rgba(0,0,0,0.4)); }
 .home-subtitle { color: var(--text-dim); margin: 6px 0 0; }
 
+.home-map-section { margin-bottom: 20px; }
+.home-map-hint { text-align: center; color: var(--text-dim); font-size: 0.85rem; margin: 10px 0 0; }
+
+.home-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.home-tab {
+  font-size: 0.95rem;
+  font-weight: 800;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--panel-light);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+}
+.home-tab.active {
+  background: var(--accent);
+  color: #1a1a2e;
+  border-color: var(--accent);
+  cursor: default;
+}
+.home-tab.unlocked { background: var(--good); color: #06231c; border-color: var(--good); }
+.home-tab.locked { opacity: 0.55; cursor: not-allowed; }
+
 .home-stats { margin-bottom: 24px; }
 .home-stats-row {
   display: flex;
@@ -394,6 +422,18 @@ body {
 .map-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; background: var(--panel); padding: 6px 12px; border-radius: 999px; }
 .map-legend-dot { width: 14px; height: 14px; border-radius: 50%; }
 .map-wrap { background: var(--panel); border-radius: var(--radius); padding: 12px; box-shadow: var(--shadow); }
+/* OSM(Leaflet) 지도 */
+.osm-map {
+  width: 100%;
+  height: 420px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  z-index: 0;
+}
+.revolution-pin { background: transparent; border: none; }
+.leaflet-container { font-family: inherit; background: #15306b; }
+
 .map-region { cursor: pointer; transition: opacity 0.15s; outline: none; }
 .map-region:hover { opacity: 0.85; }
 .map-region:focus-visible circle { stroke: #fff; stroke-width: 0.8; }

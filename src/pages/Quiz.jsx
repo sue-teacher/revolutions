@@ -26,6 +26,7 @@ export default function Quiz() {
   const [score, setScore] = useState(0)
   const [combo, setCombo] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
+  const [wrong, setWrong] = useState([]) // 틀린 문제의 인덱스 목록
 
   // 선택형(mcq/ox) 상태
   const [selected, setSelected] = useState(null)
@@ -55,6 +56,7 @@ export default function Quiz() {
       setCorrectCount((c) => c + 1)
     } else {
       setCombo(0)
+      setWrong((w) => (w.includes(index) ? w : [...w, index]))
     }
   }
 
@@ -79,7 +81,7 @@ export default function Quiz() {
       const ratio = correctCount / total
       const stars = ratio >= 0.9 ? 3 : ratio >= 0.6 ? 2 : ratio > 0 ? 1 : 0
       navigate(`/result/${rev.id}`, {
-        state: { score, correctCount, total, stars },
+        state: { score, correctCount, total, stars, wrong },
         replace: true,
       })
       return

@@ -1,4 +1,4 @@
-// 혁명 탐험대 - 역사1 복습 데이터
+﻿// 혁명 탐험대 - 역사1 복습 데이터
 // 2022 개정 교육과정 중학교 역사1 "국민 국가의 형성" 흐름에 맞춘 7개 주제
 //
 // 각 주제(stage)는 아래 구조를 가진다.
@@ -21,6 +21,7 @@ export const revolutions = [
     color: '#2a9d8f',
     year: 1871,
     region: 'italy',
+    coords: [41.9028, 12.4964],
     summary: '여러 나라로 나뉘어 있던 이탈리아가 하나의 왕국으로 통일되다.',
     sections: [
       {
@@ -29,7 +30,7 @@ export const revolutions = [
       },
       {
         label: '전개',
-        text: '사르데냐 왕국의 재상 카보우르가 외교와 전쟁으로 북부·중부를 통합했고, 가리발디가 "붉은 셔츠대"를 이끌고 남부(시칠리아·나폴리)를 점령해 사르데냐 국왕에게 바쳤다.',
+        text: '사르데냐 왕국의 총리 카부르가 외교와 전쟁으로 북부·중부를 통합했고, 가리발디가 "붉은 셔츠대"를 이끌고 남부(시칠리아·나폴리)를 점령해 사르데냐 국왕에게 바쳤다.',
       },
       {
         label: '결과',
@@ -37,9 +38,9 @@ export const revolutions = [
       },
     ],
     figures: [
-      { name: '카보우르', role: '사르데냐 재상, 외교로 통일을 이끈 설계자' },
+      { name: '카부르', role: '사르데냐 왕국의 총리, 외교로 통일을 이끈 설계자' },
+      { name: '마치니', role: '청년 이탈리아당을 조직한 통일운동의 사상적 지도자' },
       { name: '가리발디', role: '붉은 셔츠대를 이끌고 남부를 점령한 군인' },
-      { name: '비토리오 에마누엘레 2세', role: '통일 이탈리아 왕국의 첫 국왕' },
     ],
     timeline: [
       { year: 1859, event: '사르데냐, 오스트리아와 전쟁으로 북부 통합 시작' },
@@ -50,15 +51,15 @@ export const revolutions = [
     quiz: [
       {
         type: 'mcq',
-        q: '이탈리아 통일에서 외교와 전쟁으로 북부를 통합한 사르데냐의 재상은?',
-        choices: ['가리발디', '카보우르', '비스마르크', '마치니'],
+        q: '이탈리아 통일에서 외교와 전쟁으로 북부를 통합한 사르데냐 왕국의 총리는?',
+        choices: ['가리발디', '카부르', '비스마르크', '마치니'],
         answer: 1,
-        explain: '카보우르는 사르데냐 왕국의 재상으로 외교 전략을 통해 통일을 주도했다.',
+        explain: '카부르는 사르데냐 왕국의 총리로 외교 전략을 통해 통일을 주도했다.',
       },
       {
         type: 'mcq',
         q: '붉은 셔츠대를 이끌고 남부 시칠리아와 나폴리를 점령한 인물은?',
-        choices: ['카보우르', '마치니', '가리발디', '빌헬름 1세'],
+        choices: ['카부르', '마치니', '가리발디', '빌헬름 1세'],
         answer: 2,
         explain: '가리발디는 의용군 "붉은 셔츠대"로 남부를 점령해 국왕에게 바쳤다.',
       },
@@ -72,12 +73,12 @@ export const revolutions = [
         type: 'order',
         q: '이탈리아 통일 과정을 일어난 순서대로 배열하세요.',
         items: [
-          '사르데냐가 북부를 통합',
+          '카부르가 중북부 이탈리아를 통합',
           '가리발디가 남부를 점령해 헌납',
           '이탈리아 왕국 수립',
           '로마를 수도로 통일 완성',
         ],
-        explain: '북부 통합 → 남부 점령·헌납 → 왕국 수립(1861) → 로마 수도 통일(1871) 순이다.',
+        explain: '중북부 통합 → 남부 점령·헌납 → 왕국 수립(1861) → 로마 수도 통일(1871) 순이다.',
       },
     ],
   },
@@ -89,6 +90,7 @@ export const revolutions = [
     color: '#e76f51',
     year: 1871,
     region: 'germany',
+    coords: [52.52, 13.405],
     summary: '프로이센이 "철혈정책"으로 독일을 통일해 독일 제국을 세우다.',
     sections: [
       {
@@ -118,7 +120,7 @@ export const revolutions = [
       {
         type: 'mcq',
         q: '"철과 피"를 내세운 철혈정책으로 독일 통일을 이끈 프로이센의 재상은?',
-        choices: ['카보우르', '비스마르크', '메테르니히', '가리발디'],
+        choices: ['카부르', '비스마르크', '메테르니히', '가리발디'],
         answer: 1,
         explain: '비스마르크는 강력한 군사력(철과 피)으로 통일을 이뤄야 한다고 주장했다.',
       },
@@ -156,6 +158,7 @@ export const revolutions = [
     color: '#9d4edd',
     year: 1804,
     region: 'haiti',
+    coords: [18.5944, -72.3074],
     summary: '노예들이 봉기해 세계 최초의 흑인 공화국을 세우다.',
     sections: [
       {
@@ -189,9 +192,9 @@ export const revolutions = [
       },
       {
         type: 'ox',
-        q: '아이티는 세계 최초로 노예 해방을 이룬 흑인 공화국이다.',
+        q: '아이티는 세계 최초로 노예 해방을 이룬 라틴 아메리카의 첫 독립국가다.',
         answer: true,
-        explain: '1804년 독립한 아이티는 세계 최초의 흑인 공화국이다.',
+        explain: '1804년 독립한 아이티는 라틴 아메리카 최초의 독립국이자, 노예 해방을 이룬 나라다.',
       },
       {
         type: 'mcq',
@@ -210,6 +213,7 @@ export const revolutions = [
     color: '#1d3557',
     year: 1865,
     region: 'usa',
+    coords: [38.9072, -77.0369],
     summary: '노예제를 둘러싼 갈등으로 남과 북이 전쟁을 벌이다.',
     sections: [
       {
@@ -276,6 +280,7 @@ export const revolutions = [
     color: '#f4a261',
     year: 1820,
     region: 'latin',
+    coords: [10.4806, -66.9036],
     summary: '크리오요를 중심으로 에스파냐·포르투갈로부터 독립하다.',
     sections: [
       {
@@ -294,6 +299,7 @@ export const revolutions = [
     figures: [
       { name: '볼리바르', role: '남아메리카 북부 지역의 독립운동 지도자' },
       { name: '산마르틴', role: '남아메리카 남부 지역의 독립운동 지도자' },
+      { name: '이달고 신부', role: '멕시코 독립운동의 불씨를 지핀 신부' },
     ],
     timeline: [
       { year: 1810, event: '여러 지역에서 독립운동 시작' },
@@ -304,7 +310,7 @@ export const revolutions = [
       {
         type: 'mcq',
         q: '남아메리카 북부에서 독립운동을 이끈 지도자는?',
-        choices: ['산마르틴', '볼리바르', '투생 루베르튀르', '카보우르'],
+        choices: ['산마르틴', '볼리바르', '투생 루베르튀르', '카부르'],
         answer: 1,
         explain: '볼리바르는 남아메리카 북부 지역의 독립을 이끌었다.',
       },
@@ -340,6 +346,7 @@ export const revolutions = [
     color: '#457b9d',
     year: 1848,
     region: 'france',
+    coords: [48.8566, 2.3522],
     summary: '자유를 되찾기 위한 두 번의 혁명으로 공화정으로 나아가다.',
     sections: [
       {
@@ -404,6 +411,7 @@ export const revolutions = [
     color: '#6a994e',
     year: 1838,
     region: 'britain',
+    coords: [51.5074, -0.1278],
     summary: '노동자들이 선거권을 요구하며 참정권 운동을 벌이다.',
     sections: [
       {
@@ -457,3 +465,4 @@ export const revolutions = [
 ]
 
 export const getRevolutionById = (id) => revolutions.find((r) => r.id === id)
+

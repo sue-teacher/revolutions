@@ -16,7 +16,7 @@ export default function Result() {
   useEffect(() => {
     if (rev && state && !saved.current) {
       saved.current = true
-      saveResult(rev.id, { stars: state.stars, score: state.score })
+      saveResult(rev.id, { stars: state.stars, score: state.score, wrong: state.wrong || [] })
     }
   }, [rev, state, saveResult])
 

@@ -1,23 +1,32 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { revolutions } from '../data/revolutions.js'
-import { summarize } from '../hooks/useProgress.js'
+import { summarize, collectWrong } from '../hooks/useProgress.js'
 import { useProgressContext } from '../ProgressContext.jsx'
 import Stars from '../components/Stars.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
+import RevolutionMap from '../components/RevolutionMap.jsx'
 
 export default function Home() {
   const navigate = useNavigate()
   const { progress, resetProgress } = useProgressContext()
   const stats = summarize(progress, revolutions.length)
+  const wrongCount = collectWrong(progress).length
+  const reviewUnlocked = stats.percent >= 100
 
   return (
     <div className="home">
       <header className="home-header">
         <h1 className="home-title">
-          <span className="home-title-emoji">🗺️</span> 혁명 탐험대
+          <span className="home-title-emoji">🗺️</span> 표선 혁명 탐험대
         </h1>
         <p className="home-subtitle">역사1 · 국민 국가의 형성 복습 게임</p>
       </header>
+
+      {/* OSM 지도를 홈 메인에 바로 노출 */}
+      <section className="home-map-section">
+        <RevolutionMap progress={progress} />
+        <p className="home-map-hint">🧭 지도의 핀을 눌러 각 사건이 일어난 곳으로 떠나 보세요.</p>
+      </section>
 
       <section className="home-stats card">
         <div className="home-stats-row">
@@ -29,12 +38,25 @@ export default function Home() {
             <span className="stat-value">⭐ {stats.totalStars}/{stats.maxStars}</span>
             <span className="stat-label">모은 별</span>
           </div>
-          <button className="btn btn-map" onClick={() => navigate('/map')}>
-            🌍 지도 보기
-          </button>
         </div>
         <ProgressBar percent={stats.percent} />
       </section>
+
+      {/* 탭: 스테이지 / 틀린 문제 다시보기 */}
+      <nav className="home-tabs">
+        <span className="home-tab active">📚 스테이지</span>
+        <button
+          className={`home-tab ${reviewUnlocked ? 'unlocked' : 'locked'}`}
+          disabled={!reviewUnlocked}
+          onClick={() => reviewUnlocked && navigate('/review')}
+          title={reviewUnlocked ? '틀린 문제를 다시 풀어요' : '모든 스테이지를 클리어하면 열려요'}
+        >
+          🔁 틀린 문제 다시보기
+          {reviewUnlocked
+            ? wrongCount > 0 ? ` (${wrongCount})` : ' ✓'
+            : ' 🔒'}
+        </button>
+      </nav>
 
       <section className="stage-map">
         {revolutions.map((rev, idx) => {
