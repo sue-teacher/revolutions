@@ -5,10 +5,12 @@ import Quiz from './pages/Quiz.jsx'
 import Result from './pages/Result.jsx'
 import Review from './pages/Review.jsx'
 import MatchGame from './pages/MatchGame.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 
 export default function App() {
   return (
     <div className="app-shell">
+      <ScrollToTop />
       <a className="skip-link" href="#main">본문으로 건너뛰기</a>
       <main id="main">
       <Routes>
