@@ -3,8 +3,29 @@ import { revolutions } from '../data/revolutions.js'
 import { summarize, collectWrong } from '../hooks/useProgress.js'
 import { useProgressContext } from '../ProgressContext.jsx'
 import Stars from '../components/Stars.jsx'
-import ProgressBar from '../components/ProgressBar.jsx'
 import RevolutionMap from '../components/RevolutionMap.jsx'
+
+// 원형 진행률 게이지 (SVG)
+function ProgressRing({ percent }) {
+  const r = 34
+  const c = 2 * Math.PI * r
+  const offset = c - (percent / 100) * c
+  return (
+    <div className="ring-gauge" role="img" aria-label={`전체 진행률 ${percent}%`}>
+      <svg viewBox="0 0 80 80" width="80" height="80">
+        <circle cx="40" cy="40" r={r} className="ring-track" />
+        <circle
+          cx="40" cy="40" r={r}
+          className="ring-fill"
+          strokeDasharray={c}
+          strokeDashoffset={offset}
+          transform="rotate(-90 40 40)"
+        />
+      </svg>
+      <span className="ring-label">{percent}%</span>
+    </div>
+  )
+}
 
 export default function Home() {
   const navigate = useNavigate()
@@ -15,82 +36,93 @@ export default function Home() {
 
   return (
     <div className="home">
-      <header className="home-header">
-        <h1 className="home-title">
-          <span className="home-title-emoji">🗺️</span> 표선 혁명 탐험대
-        </h1>
-        <p className="home-subtitle">역사1 · 국민 국가의 형성 복습 게임</p>
-      </header>
-
-      {/* 통계(클리어 스테이지·모은 별)를 지도 위에 배치 */}
-      <section className="home-stats card">
-        <div className="home-stats-row">
-          <div className="stat-box">
-            <span className="stat-value">{stats.clearedCount}/{revolutions.length}</span>
-            <span className="stat-label">클리어 스테이지</span>
-          </div>
-          <div className="stat-box">
-            <span className="stat-value">⭐ {stats.totalStars}/{stats.maxStars}</span>
-            <span className="stat-label">모은 별</span>
-          </div>
+      {/* 상단 네비게이션 */}
+      <nav className="topbar">
+        <div className="topbar-brand">
+          <span className="topbar-logo">🗺️</span>
+          <span className="topbar-name">표선 혁명 탐험대</span>
         </div>
-        <ProgressBar percent={stats.percent} />
-      </section>
-
-      {/* OSM 지도를 홈 메인에 바로 노출 */}
-      <section className="home-map-section">
-        <RevolutionMap progress={progress} />
-        <p className="home-map-hint">🧭 지도의 핀을 눌러 각 사건이 일어난 곳으로 떠나 보세요.</p>
-      </section>
-
-      {/* 탭: 스테이지 / 틀린 문제 다시보기 / 혁명 매칭 게임 */}
-      <nav className="home-tabs">
-        <span className="home-tab active">📚 스테이지</span>
-        <button
-          className={`home-tab ${reviewUnlocked ? 'unlocked' : 'locked'}`}
-          disabled={!reviewUnlocked}
-          onClick={() => reviewUnlocked && navigate('/review')}
-          title={reviewUnlocked ? '틀린 문제를 다시 풀어요' : '모든 스테이지를 클리어하면 열려요'}
-        >
-          🔁 틀린 문제 다시보기
-          {reviewUnlocked
-            ? wrongCount > 0 ? ` (${wrongCount})` : ' ✓'
-            : ' 🔒'}
-        </button>
-        <button
-          className="home-tab game"
-          onClick={() => navigate('/match-game')}
-          title="설명과 혁명 이름을 연결하는 복습 게임"
-        >
-          🧩 혁명 매칭 게임
-        </button>
+        <div className="topbar-actions">
+          <button
+            className={`chip-btn ${reviewUnlocked ? '' : 'is-locked'}`}
+            disabled={!reviewUnlocked}
+            onClick={() => reviewUnlocked && navigate('/review')}
+            title={reviewUnlocked ? '틀린 문제를 다시 풀어요' : '모든 스테이지를 클리어하면 열려요'}
+          >
+            🔁 틀린 문제 {reviewUnlocked ? (wrongCount > 0 ? `(${wrongCount})` : '✓') : '🔒'}
+          </button>
+          <button className="chip-btn chip-game" onClick={() => navigate('/match-game')}>
+            🧩 매칭 게임
+          </button>
+        </div>
       </nav>
 
-      <section className="stage-map">
-        {revolutions.map((rev, idx) => {
-          const p = progress[rev.id]
-          const cleared = p?.cleared
-          return (
-            <Link
-              to={`/stage/${rev.id}`}
-              key={rev.id}
-              className={`stage-node ${cleared ? 'cleared' : ''}`}
-              style={{ '--accent': rev.color }}
-            >
-              <div className="stage-node-number">{idx + 1}</div>
-              <div className="stage-node-emoji">{rev.emoji}</div>
-              <div className="stage-node-body">
-                <h3 className="stage-node-title">{rev.title}</h3>
-                <p className="stage-node-summary">{rev.summary}</p>
-                <div className="stage-node-foot">
-                  <Stars count={p?.bestStars || 0} size="sm" />
-                  <span className="stage-node-year">{rev.year}년</span>
-                </div>
+      {/* 히어로: 소개 + 진행 현황 / 지도 */}
+      <section className="hero">
+        <div className="hero-left">
+          <span className="hero-eyebrow">역사1 · 국민 국가의 형성</span>
+          <h1 className="hero-title">세계를 바꾼<br /><span className="hero-title-accent">7개의 혁명</span>을 탐험하자</h1>
+          <p className="hero-desc">지도를 따라 떠나 요약을 읽고 퀴즈로 복습하는 역사 모험 게임</p>
+
+          <div className="hero-stats">
+            <ProgressRing percent={stats.percent} />
+            <div className="hero-stat-list">
+              <div className="hero-stat">
+                <span className="hero-stat-value">{stats.clearedCount}<span className="hero-stat-unit">/{revolutions.length}</span></span>
+                <span className="hero-stat-label">클리어한 혁명</span>
               </div>
-              {cleared && <span className="stage-node-badge">클리어!</span>}
-            </Link>
-          )
-        })}
+              <div className="hero-stat">
+                <span className="hero-stat-value">⭐ {stats.totalStars}<span className="hero-stat-unit">/{stats.maxStars}</span></span>
+                <span className="hero-stat-label">모은 별</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="hero-right">
+          <div className="map-frame">
+            <RevolutionMap progress={progress} />
+          </div>
+          <p className="home-map-hint">🧭 지도의 핀을 눌러 바로 떠날 수 있어요</p>
+        </div>
+      </section>
+
+      {/* 탐험 경로 */}
+      <section className="journey">
+        <h2 className="section-heading">🚩 탐험 경로</h2>
+        <ol className="journey-path">
+          {revolutions.map((rev, idx) => {
+            const p = progress[rev.id]
+            const cleared = p?.cleared
+            return (
+              <li key={rev.id} className={`journey-item ${cleared ? 'cleared' : ''}`}>
+                <div className="journey-rail">
+                  <span className="journey-dot" style={{ '--accent': rev.color }}>
+                    {cleared ? '✓' : idx + 1}
+                  </span>
+                </div>
+                <Link
+                  to={`/stage/${rev.id}`}
+                  className="journey-card"
+                  style={{ '--accent': rev.color }}
+                >
+                  <div className="journey-banner" style={{ '--accent': rev.color }}>
+                    <span className="journey-emoji">{rev.emoji}</span>
+                    <span className="journey-year">{rev.year}년</span>
+                  </div>
+                  <div className="journey-body">
+                    <h3 className="journey-title">{rev.title}</h3>
+                    <p className="journey-summary">{rev.summary}</p>
+                    <div className="journey-foot">
+                      <Stars count={p?.bestStars || 0} size="sm" />
+                      <span className="journey-go">{cleared ? '다시 복습 →' : '학습하러 가기 →'}</span>
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            )
+          })}
+        </ol>
       </section>
 
       <footer className="home-footer">
