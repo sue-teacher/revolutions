@@ -33,12 +33,26 @@ export default function Quiz() {
 
   // 현재 선택형 임시 선택값(아직 채점 전)
   const [selected, setSelected] = useState(null)
-  // order/match 자식이 올려주는 현재 상태
-  const [subAnswer, setSubAnswer] = useState({ correct: false, ready: false })
+  // order/match 자식이 올려주는 현재 상태(value: 최신 배열도 함께 보관)
+  const [subAnswer, setSubAnswer] = useState({ value: null, correct: false, ready: false })
 
-  const handleSubReady = useCallback((_value, correct, ready = true) => {
-    setSubAnswer({ correct, ready })
+  const handleSubReady = useCallback((value, correct, ready = true) => {
+    setSubAnswer({ value, correct, ready })
   }, [])
+
+  // 제출 시점에 자식이 올린 최신 value로 정답을 직접 재검증(effect 타이밍에 의존하지 않음)
+  const gradeSub = (sub, question) => {
+    const value = sub.value
+    if (question.type === 'order') {
+      if (!Array.isArray(value) || value.length !== question.items.length) return sub.correct
+      return value.every((v, i) => v === question.items[i])
+    }
+    if (question.type === 'match') {
+      if (!Array.isArray(value) || value.length !== question.pairs.length) return sub.correct
+      return value.every((val, i) => val !== '' && val === question.pairs[i].right)
+    }
+    return sub.correct
+  }
 
   if (!rev) return <Navigate to="/" replace />
 
@@ -76,13 +90,15 @@ export default function Quiz() {
 
   const handleSubmit = () => {
     if (answered) return
-    commitResult(subAnswer.correct)
+    // 저장된 boolean이 아니라 최신 배열로 다시 채점(오판정 방지)
+    const isCorrect = gradeSub(subAnswer, q)
+    commitResult(isCorrect)
   }
 
   const goTo = (targetIndex) => {
     setIndex(targetIndex)
     setSelected(null)
-    setSubAnswer({ correct: false, ready: false })
+    setSubAnswer({ value: null, correct: false, ready: false })
   }
 
   const handlePrev = () => {
