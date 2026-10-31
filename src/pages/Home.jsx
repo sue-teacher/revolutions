@@ -39,7 +39,7 @@ export default function Home() {
       {/* 상단 네비게이션 */}
       <nav className="topbar" aria-label="주요 메뉴">
         <div className="topbar-brand">
-          <span className="topbar-logo" aria-hidden="true">🗺️</span>
+          <span className="topbar-logo" aria-hidden="true">🔍</span>
           <span className="topbar-name">지수쌤과 혁명 탐험대</span>
         </div>
         <div className="topbar-actions">
